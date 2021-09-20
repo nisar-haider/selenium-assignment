@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Duraze\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Duraze\\.nuget\\packages"
+    ]
+  }
+}
