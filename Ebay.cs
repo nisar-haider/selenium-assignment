@@ -48,7 +48,7 @@ namespace selenium_assignment
             driver.Close();
         }
 
-        public void PrintResults(Int32 result)
+        public void PrintResults(int result)
         {
             EbayHome ebayHome=new EbayHome(driver);
             EbaySearchResult ebaySearchResult=new EbaySearchResult(driver);
@@ -105,6 +105,28 @@ namespace selenium_assignment
             
                 
         }
+
+            public void PrintResultsWhileScrolling(int result)
+        {
+            EbayHome ebayHome=new EbayHome(driver);
+            EbaySearchResult ebaySearchResult=new EbaySearchResult(driver);
+        
+            //Asynchronus wait initialized
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
+            for(int i=0; i<result; i++)
+                {
+                    IWebElement Element = driver.FindElements(By.XPath("//div[@class='srp-river-results clearfix']/ul/li"))[i+1];
+
+                    IJavaScriptExecutor js = driver as IJavaScriptExecutor;
+                    js.ExecuteScript("arguments[0].scrollIntoView();",Element);
+                    Console.WriteLine(i);
+                    Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.searchList)[i].Text + "\n");
+                }
+
+
+        }
+ 
+           
            [Test]
            public void EbayWebsite()
            {
@@ -140,13 +162,6 @@ namespace selenium_assignment
                 Console.WriteLine(elem);
                 System.Threading.Thread.Sleep(3000);
 
-                /*IWebElement Element = driver.FindElement(By.XPath("//div[@class='srp-river-results clearfix']/ul/li/div/div[2]/a/h3[text()='For Apple Watch Case 38 40 42 44MM SE 6 5 4 3 2Bling Diamond Protector For Women']"));
-
-                IJavaScriptExecutor js = driver as IJavaScriptExecutor;
-                js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");*/
-
-                int resultCount1=driver.FindElements(ebaySearchResult.resultTitle).Count();
-
                 //Console.WriteLine(resultCount1);
 
                // PrintResults(elem);
@@ -164,7 +179,8 @@ namespace selenium_assignment
                 
                 Console.WriteLine(items);
                 
-                PrintItemsPerPage(items);
+                //PrintItemsPerPage(items);
+                PrintResultsWhileScrolling(items);
         
         
                 System.Threading.Thread.Sleep(3000);  
