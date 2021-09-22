@@ -48,6 +48,7 @@ namespace selenium_assignment
             driver.Close();
         }
 
+        [Test]
         public void PrintResults()
         {
             EbayHome ebayHome=new EbayHome(driver);
@@ -55,6 +56,24 @@ namespace selenium_assignment
         
             //Asynchronus wait initialized
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
+
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(ebayHome.searchField));
+                Assert.IsTrue(ebayHome.exists_searchField());
+                ebayHome.searchInput("Apple Watches");
+                
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(ebayHome.btn_AllCategories));
+                Assert.IsTrue(ebayHome.exists_btn_AllCategories());
+                driver.FindElement(ebayHome.btn_AllCategories).Click();
+
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebayHome.category_ConsumerElectronics));
+                Assert.IsTrue(ebayHome.exists_category_ConsumerElectronics());
+                driver.FindElement(ebayHome.category_ConsumerElectronics).Click();
+
+
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebayHome.btn_Search));
+                Assert.IsTrue(ebayHome.exists_btn_Search());
+                driver.FindElement(ebayHome.btn_Search).Click();
+                
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebaySearchResult.searchCount));
             Assert.IsTrue(ebaySearchResult.exists_searchCount());
             int resultCount=driver.FindElements(ebaySearchResult.resultTitle).Count();
@@ -85,14 +104,31 @@ namespace selenium_assignment
 
         }
 
- 
-        public void PrintNthResult(int value)
+        [Test]
+        public void PrintNthResult()
         {
             EbayHome ebayHome=new EbayHome(driver);
             EbaySearchResult ebaySearchResult=new EbaySearchResult(driver);
+            int value=5;
         
             //Asynchronus wait initialized
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(ebayHome.searchField));
+            Assert.IsTrue(ebayHome.exists_searchField());
+            ebayHome.searchInput("Apple Watches");
+                
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(ebayHome.btn_AllCategories));
+            Assert.IsTrue(ebayHome.exists_btn_AllCategories());
+            driver.FindElement(ebayHome.btn_AllCategories).Click();
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebayHome.category_ConsumerElectronics));
+            Assert.IsTrue(ebayHome.exists_category_ConsumerElectronics());
+            driver.FindElement(ebayHome.category_ConsumerElectronics).Click();
+
+
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebayHome.btn_Search));
+            Assert.IsTrue(ebayHome.exists_btn_Search());
+            driver.FindElement(ebayHome.btn_Search).Click();
+                
 
             int result=driver.FindElements(ebaySearchResult.resultTitle).Count();
 
@@ -108,7 +144,7 @@ namespace selenium_assignment
             
                 
         }
-        
+        [Test]
         public void PrintItemsPerPage()
         {
             EbayHome ebayHome=new EbayHome(driver);
@@ -116,6 +152,23 @@ namespace selenium_assignment
         
             //Asynchronus wait initialized
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(ebayHome.searchField));
+                Assert.IsTrue(ebayHome.exists_searchField());
+                ebayHome.searchInput("Apple Watches");
+                
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(ebayHome.btn_AllCategories));
+                Assert.IsTrue(ebayHome.exists_btn_AllCategories());
+                driver.FindElement(ebayHome.btn_AllCategories).Click();
+
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebayHome.category_ConsumerElectronics));
+                Assert.IsTrue(ebayHome.exists_category_ConsumerElectronics());
+                driver.FindElement(ebayHome.category_ConsumerElectronics).Click();
+
+
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebayHome.btn_Search));
+                Assert.IsTrue(ebayHome.exists_btn_Search());
+                driver.FindElement(ebayHome.btn_Search).Click();
+                
             IJavaScriptExecutor js = driver as IJavaScriptExecutor;
                 js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
 
@@ -136,7 +189,7 @@ namespace selenium_assignment
             
                 
         }
-
+        [Test]
         public void PrintResultsWhileScrolling()
        
             {
@@ -145,32 +198,6 @@ namespace selenium_assignment
         
                 //Asynchronus wait initialized
                 var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
-                int resultCount=driver.FindElements(ebaySearchResult.resultTitle).Count();
-
-                Console.WriteLine(resultCount);
-                for(int i=0; i<resultCount; i++)
-                {
-                    IWebElement Element = driver.FindElements(By.XPath("//div[@class='srp-river-results clearfix']/ul/li"))[i];
-
-                    IJavaScriptExecutor js = driver as IJavaScriptExecutor;
-                    js.ExecuteScript("arguments[0].scrollIntoView();",Element);
-                    Console.WriteLine(i);
-                    Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.resultTitle)[i].Text + "\n");
-                }
-
-
-            }
- 
-           
-           [Test]
-           public void EbayWebsite()
-           {
-                EbayHome ebayHome=new EbayHome(driver);
-                EbaySearchResult ebaySearchResult=new EbaySearchResult(driver);
-        
-                //Asynchronus wait initialized
-                var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
-               
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(ebayHome.searchField));
                 Assert.IsTrue(ebayHome.exists_searchField());
                 ebayHome.searchInput("Apple Watches");
@@ -188,21 +215,23 @@ namespace selenium_assignment
                 Assert.IsTrue(ebayHome.exists_btn_Search());
                 driver.FindElement(ebayHome.btn_Search).Click();
                 
-                //Console.WriteLine(resultCount1);
+                int resultCount=driver.FindElements(ebaySearchResult.resultTitle).Count();
 
-                //PrintResults();
+                Console.WriteLine(resultCount);
+                for(int i=0; i<resultCount; i++)
+                {
+                    IWebElement Element = driver.FindElements(By.XPath("//div[@class='srp-river-results clearfix']/ul/li"))[i];
 
-               // PrintNthResult(200);
+                    IJavaScriptExecutor js = driver as IJavaScriptExecutor;
+                    js.ExecuteScript("arguments[0].scrollIntoView();",Element);
+                    Console.WriteLine(i);
+                    Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.resultTitle)[i].Text + "\n");
+                }
 
-                
-                
-                //PrintItemsPerPage(items);
-                PrintResultsWhileScrolling();
-        
-        
-                System.Threading.Thread.Sleep(3000);  
-                
 
-           }
+            }
+ 
+           
+       
     }
 }
