@@ -109,15 +109,25 @@ namespace selenium_assignment
                 
         }
         
-        public void PrintItemsPerPage(int value)
+        public void PrintItemsPerPage()
         {
             EbayHome ebayHome=new EbayHome(driver);
             EbaySearchResult ebaySearchResult=new EbaySearchResult(driver);
         
             //Asynchronus wait initialized
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
+            IJavaScriptExecutor js = driver as IJavaScriptExecutor;
+                js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
 
-            for(int i=0; i<value; i++)
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebaySearchResult.itemsPerPage));
+                Assert.IsTrue(ebaySearchResult.exists_itemsPerPage());
+
+                var getItemsPerPage=driver.FindElement(ebaySearchResult.itemsPerPage).Text;
+                int items= int.Parse(getItemsPerPage);
+                
+                Console.WriteLine(items);
+
+            for(int i=0; i<items; i++)
             {
                 Console.WriteLine(i);
                 Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.resultTitle)[i].Text + "\n");
@@ -127,7 +137,7 @@ namespace selenium_assignment
                 
         }
 
-        public void PrintResultsWhileScrolling(int result)
+        public void PrintResultsWhileScrolling()
        
             {
                 EbayHome ebayHome=new EbayHome(driver);
@@ -135,14 +145,17 @@ namespace selenium_assignment
         
                 //Asynchronus wait initialized
                 var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
-                for(int i=0; i<result; i++)
+                int resultCount=driver.FindElements(ebaySearchResult.resultTitle).Count();
+
+                Console.WriteLine(resultCount);
+                for(int i=0; i<resultCount; i++)
                 {
-                    IWebElement Element = driver.FindElements(By.XPath("//div[@class='srp-river-results clearfix']/ul/li"))[i+1];
+                    IWebElement Element = driver.FindElements(By.XPath("//div[@class='srp-river-results clearfix']/ul/li"))[i];
 
                     IJavaScriptExecutor js = driver as IJavaScriptExecutor;
                     js.ExecuteScript("arguments[0].scrollIntoView();",Element);
                     Console.WriteLine(i);
-                    Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.searchList)[i].Text + "\n");
+                    Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.resultTitle)[i].Text + "\n");
                 }
 
 
@@ -177,23 +190,14 @@ namespace selenium_assignment
                 
                 //Console.WriteLine(resultCount1);
 
-                PrintResults();
+                //PrintResults();
 
                // PrintNthResult(200);
 
-               /* IJavaScriptExecutor js = driver as IJavaScriptExecutor;
-                js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
-
-                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebaySearchResult.itemsPerPage));
-                Assert.IsTrue(ebaySearchResult.exists_itemsPerPage());
-
-                var getItemsPerPage=driver.FindElement(ebaySearchResult.itemsPerPage).Text;
-                int items= int.Parse(getItemsPerPage);
                 
-                Console.WriteLine(items);
                 
                 //PrintItemsPerPage(items);
-                PrintResultsWhileScrolling(items);*/
+                PrintResultsWhileScrolling();
         
         
                 System.Threading.Thread.Sleep(3000);  
