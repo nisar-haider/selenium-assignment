@@ -24,7 +24,7 @@ namespace selenium_assignment.PageObjects
         public By searchCount=By.XPath("//div[@class='srp-controls__control srp-controls__count']/h1/span");
         public By searchList=By.XPath("//div[@class='srp-river-results clearfix']/ul/li");
         public By resultTitle=By.XPath("//div[@class='srp-river-results clearfix']/ul/li/div/div[2]/a/h3[@class='s-item__title']");
-       
+        public By itemsPerPage=By.XPath("//span[@id='srp-ipp-menu']/button/span/span");
 
         //Fuctions to test if elements are being displayed 
         public bool exists_searchList()
@@ -38,6 +38,10 @@ namespace selenium_assignment.PageObjects
         public bool exists_resultTitle()
         {
             return _driver.FindElement(resultTitle).Displayed;
+        }
+        public bool exists_itemsPerPage()
+        {
+            return _driver.FindElement(itemsPerPage).Displayed;
         }
         
        

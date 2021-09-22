@@ -48,7 +48,7 @@ namespace selenium_assignment
             driver.Close();
         }
 
-        public void PrintResults(int result)
+        public void PrintResults(Int32 result)
         {
             EbayHome ebayHome=new EbayHome(driver);
             EbaySearchResult ebaySearchResult=new EbaySearchResult(driver);
@@ -57,7 +57,8 @@ namespace selenium_assignment
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
             for(int i=0; i<result; i++)
                 {
-                    Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.resultTitle)[i].Text + "\n");
+                    Console.WriteLine(i);
+                    Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.searchList)[i].Text + "\n");
                 }
 
 
@@ -71,8 +72,37 @@ namespace selenium_assignment
         
             //Asynchronus wait initialized
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
+
+            int result=driver.FindElements(ebaySearchResult.resultTitle).Count();
+
+            if(value<=result)
+            {
+                Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.resultTitle)[value].Text + "\n");
+            }
+
+            else{
+                Console.WriteLine("Index out of bound. Please enter a lesser value");
+            }
             
-            Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.resultTitle)[value].Text + "\n");
+            
+                
+        }
+        
+         public void PrintItemsPerPage(int value)
+        {
+            EbayHome ebayHome=new EbayHome(driver);
+            EbaySearchResult ebaySearchResult=new EbaySearchResult(driver);
+        
+            //Asynchronus wait initialized
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 60));
+
+            for(int i=0; i<value; i++)
+            {
+                Console.WriteLine(i);
+                Console.WriteLine("Product name= " + driver.FindElements(ebaySearchResult.resultTitle)[i].Text + "\n");
+            }
+
+            
                 
         }
            [Test]
@@ -103,24 +133,38 @@ namespace selenium_assignment
 
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebaySearchResult.searchCount));
                 Assert.IsTrue(ebaySearchResult.exists_searchCount());
+                var str=driver.FindElement(ebaySearchResult.searchCount).Text;
+                int elem= int.Parse(str);
                 int resultCount=driver.FindElements(ebaySearchResult.resultTitle).Count();
 
-                Console.WriteLine(resultCount);
+                Console.WriteLine(elem);
                 System.Threading.Thread.Sleep(3000);
 
-                IWebElement Element = driver.FindElement(By.XPath("//div[@class='srp-river-results clearfix']/ul/li/div/div[2]/a/h3[text()='For Apple Watch Case 38 40 42 44MM SE 6 5 4 3 2Bling Diamond Protector For Women']"));
+                /*IWebElement Element = driver.FindElement(By.XPath("//div[@class='srp-river-results clearfix']/ul/li/div/div[2]/a/h3[text()='For Apple Watch Case 38 40 42 44MM SE 6 5 4 3 2Bling Diamond Protector For Women']"));
+
+                IJavaScriptExecutor js = driver as IJavaScriptExecutor;
+                js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");*/
+
+                int resultCount1=driver.FindElements(ebaySearchResult.resultTitle).Count();
+
+                //Console.WriteLine(resultCount1);
+
+               // PrintResults(elem);
+
+               // PrintNthResult(200);
 
                 IJavaScriptExecutor js = driver as IJavaScriptExecutor;
                 js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
 
-                int resultCount1=driver.FindElements(ebaySearchResult.resultTitle).Count();
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(ebaySearchResult.itemsPerPage));
+                Assert.IsTrue(ebaySearchResult.exists_itemsPerPage());
 
-                Console.WriteLine(resultCount1);
-
-                PrintResults(resultCount);
-
-                PrintNthResult(4);
-
+                var getItemsPerPage=driver.FindElement(ebaySearchResult.itemsPerPage).Text;
+                int items= int.Parse(getItemsPerPage);
+                
+                Console.WriteLine(items);
+                
+                PrintItemsPerPage(items);
         
         
                 System.Threading.Thread.Sleep(3000);  
