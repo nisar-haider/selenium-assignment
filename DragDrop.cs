@@ -28,26 +28,9 @@ using OpenQA.Selenium.Remote;
 
 namespace selenium_assignment
 {
-    public class DragDrop
+    public class DragDrop:config.ConfigDragDrop
     {
-        public static IWebDriver driver;
            
-        [OneTimeSetUp]
-        public void Setup()
-        {
-            System.Environment.SetEnvironmentVariable("webdriver.chrome.driver",@"C:\Users\Duraze\Documents\Selenium-assignment\selenium-assignment\bin\Debug\netcoreapp3.1");
-            driver = new ChromeDriver();
-            driver.Url = "https://jqueryui.com/droppable/";
-            driver.Manage().Window.Maximize();
-            
-        }
-
-        [OneTimeTearDown]
-        public void close()
-        {
-            driver.Close();
-        }
-
         [Test]
         public void DragDropTest()
         {

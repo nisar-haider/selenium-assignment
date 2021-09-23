@@ -29,10 +29,9 @@ using OpenQA.Selenium.Remote;
 
 namespace selenium_assignment
 {
-    public class Calculator
+    public class Calculator:config.ConfigCalculator
     {
         private WindowsDriver<WindowsElement> CalculatorSession = null;
-        IWebDriver driver;
 
         void CreateWinAppSession()
         {
