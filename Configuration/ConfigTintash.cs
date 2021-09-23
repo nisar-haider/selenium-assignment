@@ -44,7 +44,7 @@ namespace selenium_assignment.config
            string reportTime = DateTime.Now.ToString("dd-MM-yyy-HH-mm-ss");
             reportPath=currDir.Replace("\\bin\\Debug\\netcoreapp3.1", "\\ExtentReports\\");
             extent=new AventStack.ExtentReports.ExtentReports();
-            ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(reportPath+"Test Report"+reportTime+".html");
+            ExtentV3HtmlReporter htmlReporter = new ExtentV3HtmlReporter(reportPath + "Test Report_" + reportTime + ".html");
             extent.AttachReporter(htmlReporter);
             
         }
