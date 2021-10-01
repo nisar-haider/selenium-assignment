@@ -122,18 +122,48 @@ class Ebay(unittest.TestCase):
         wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.itemsPerPage)))
         self.assertTrue(self, ebaySearchResults.displayitemsPerPage())
 
-        resultCount = ebaySearchResults.list_of_elements()
+        result = ebaySearchResults.list_of_elements()
         items = ebaySearchResults.get_itemsPerPage().text
         itemsint = int(items)
         print(items)
 
         for value in range(itemsint):
-            print((resultCount[value].text))
+            print((result[value].text))
 
+#######################End of testcase##################
 
+    def test_PrintResultWhileScrolling(self):
+        wait = WebDriverWait(self.driver, 10)
+        ebayHome = EbayHome(self.driver)
+        ebaySearchResults = EbaySearchResults(self.driver)
 
+        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.searchField)))
+        self.assertTrue(self, ebayHome.displaysearchField())
+        ebayHome.searchInput("Apple Watches")
 
-    time.sleep(5)
+        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_AllCategories)))
+        self.assertTrue(self, ebayHome.displaybtn_AllCategories())
+        ebayHome.clickbtn_AllCategories()
+
+        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.category_ConsumerElectronics)))
+        self.assertTrue(self, ebayHome.displaycategory_ConsumerElectronics())
+        ebayHome.clickcategory_ConsumerElectronics()
+
+        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_Search)))
+        self.assertTrue(self, ebayHome.displaybtn_Search())
+        ebayHome.clickbtn_Search()
+
+        result = ebaySearchResults.list_of_elements()
+        length = len(result)
+
+        for value in range(length):
+            Element = result[value]
+            self.driver.execute_script("arguments[0].scrollIntoView();", Element)
+            print(value)
+            print(result[value].text)
+
+###############################End of testcase######################
+
     @classmethod
     def tearDown(self):
         self.driver.quit()
