@@ -1,6 +1,10 @@
+import pyunitreport
+from unittest import TestLoader, TestSuite
 from selenium import webdriver
 import time
 import unittest
+import HtmlTestRunner
+from HtmlTestRunner import HTMLTestRunner
 import softest
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
@@ -27,7 +31,7 @@ class Ebay(unittest.TestCase):
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
 
-        self.SearchResults()
+        self.SearchResults("Apple Watches")
 
         wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.searchCount)))
         self.assertTrue(self, ebaySearchResults.displaysearchCount())
@@ -60,7 +64,7 @@ class Ebay(unittest.TestCase):
         ebaySearchResults = EbaySearchResults(self.driver)
         value=5
 
-        self.SearchResults()
+        self.SearchResults("Apple Watches")
 
         elements = ebaySearchResults.list_of_elements()
         length = len(elements)
@@ -76,7 +80,7 @@ class Ebay(unittest.TestCase):
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
 
-        self.SearchResults()
+        self.SearchResults("Apple Watches")
 
         html = self.driver.find_element_by_tag_name('html')
         html.send_keys(Keys.END)
@@ -99,7 +103,7 @@ class Ebay(unittest.TestCase):
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
 
-        self.SearchResults()
+        self.SearchResults("Apple Watches")
         result = ebaySearchResults.list_of_elements()
         length = len(result)
 
@@ -111,14 +115,14 @@ class Ebay(unittest.TestCase):
 
 ###############################End of testcase######################
 
-    def SearchResults(self):
+    def SearchResults(self, product):
         wait = WebDriverWait(self.driver, 10)
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
 
         wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.searchField)))
         self.assertTrue(self, ebayHome.displaysearchField())
-        ebayHome.searchInput("Apple Watches")
+        ebayHome.searchInput(product)
 
         wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_AllCategories)))
         self.assertTrue(self, ebayHome.displaybtn_AllCategories())
@@ -137,5 +141,5 @@ class Ebay(unittest.TestCase):
         self.driver.quit()
 
 if __name__=='__main__':
-    unittest.main()
+    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='C:\\Users\Duraze\\PycharmProjects\\pythonProject\\Reports'))
 

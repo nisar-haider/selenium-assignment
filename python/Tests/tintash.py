@@ -1,6 +1,7 @@
 from selenium import webdriver
 import time
 import unittest
+import HtmlTestRunner
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common import by
@@ -80,3 +81,6 @@ class Tintash(unittest.TestCase):
     time.sleep(5)
     def tearDown(self):
         self.driver.quit()
+
+if __name__=='__main__':
+    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='C:\\Users\Duraze\\PycharmProjects\\pythonProject\\Reports'))
