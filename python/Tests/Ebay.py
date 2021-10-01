@@ -23,25 +23,11 @@ class Ebay(unittest.TestCase):
 
 
     def test_EbayWebsitePrintAllResults(self):
-        wait = WebDriverWait(self.driver, 10)
+        wait = WebDriverWait(self.driver, 5)
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
 
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.searchField)))
-        self.assertTrue(self, ebayHome.displaysearchField())
-        ebayHome.searchInput("Apple Watches")
-
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_AllCategories)))
-        self.assertTrue(self, ebayHome.displaybtn_AllCategories())
-        ebayHome.clickbtn_AllCategories()
-
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.category_ConsumerElectronics)))
-        self.assertTrue(self, ebayHome.displaycategory_ConsumerElectronics())
-        ebayHome.clickcategory_ConsumerElectronics()
-
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_Search)))
-        self.assertTrue(self, ebayHome.displaybtn_Search())
-        ebayHome.clickbtn_Search()
+        self.SearchResults()
 
         wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.searchCount)))
         self.assertTrue(self, ebaySearchResults.displaysearchCount())
@@ -66,27 +52,15 @@ class Ebay(unittest.TestCase):
                 print("Disabled button not found")
                 ebaySearchResults.clickbtn_NextPage()
 
+###########################End of the Test case##########################
+
     def test_PrintNthResult(self):
         wait = WebDriverWait(self.driver, 10)
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
         value=5
 
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.searchField)))
-        self.assertTrue(self, ebayHome.displaysearchField())
-        ebayHome.searchInput("Apple Watches")
-
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_AllCategories)))
-        self.assertTrue(self, ebayHome.displaybtn_AllCategories())
-        ebayHome.clickbtn_AllCategories()
-
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.category_ConsumerElectronics)))
-        self.assertTrue(self, ebayHome.displaycategory_ConsumerElectronics())
-        ebayHome.clickcategory_ConsumerElectronics()
-
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_Search)))
-        self.assertTrue(self, ebayHome.displaybtn_Search())
-        ebayHome.clickbtn_Search()
+        self.SearchResults()
 
         elements = ebaySearchResults.list_of_elements()
         length = len(elements)
@@ -95,26 +69,14 @@ class Ebay(unittest.TestCase):
         if value<=length:
             print(elements[value-1].text)
 
+###############End of TestCase################################
+
     def test_printItemsPerPage(self):
         wait = WebDriverWait(self.driver, 10)
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
 
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.searchField)))
-        self.assertTrue(self, ebayHome.displaysearchField())
-        ebayHome.searchInput("Apple Watches")
-
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_AllCategories)))
-        self.assertTrue(self, ebayHome.displaybtn_AllCategories())
-        ebayHome.clickbtn_AllCategories()
-
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.category_ConsumerElectronics)))
-        self.assertTrue(self, ebayHome.displaycategory_ConsumerElectronics())
-        ebayHome.clickcategory_ConsumerElectronics()
-
-        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_Search)))
-        self.assertTrue(self, ebayHome.displaybtn_Search())
-        ebayHome.clickbtn_Search()
+        self.SearchResults()
 
         html = self.driver.find_element_by_tag_name('html')
         html.send_keys(Keys.END)
@@ -137,6 +99,23 @@ class Ebay(unittest.TestCase):
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
 
+        self.SearchResults()
+        result = ebaySearchResults.list_of_elements()
+        length = len(result)
+
+        for value in range(length):
+            Element = result[value]
+            self.driver.execute_script("arguments[0].scrollIntoView();", Element)
+            print(value)
+            print(result[value].text)
+
+###############################End of testcase######################
+
+    def SearchResults(self):
+        wait = WebDriverWait(self.driver, 10)
+        ebayHome = EbayHome(self.driver)
+        ebaySearchResults = EbaySearchResults(self.driver)
+
         wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.searchField)))
         self.assertTrue(self, ebayHome.displaysearchField())
         ebayHome.searchInput("Apple Watches")
@@ -152,18 +131,7 @@ class Ebay(unittest.TestCase):
         wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_Search)))
         self.assertTrue(self, ebayHome.displaybtn_Search())
         ebayHome.clickbtn_Search()
-
-        result = ebaySearchResults.list_of_elements()
-        length = len(result)
-
-        for value in range(length):
-            Element = result[value]
-            self.driver.execute_script("arguments[0].scrollIntoView();", Element)
-            print(value)
-            print(result[value].text)
-
-###############################End of testcase######################
-
+####################End of function######################
     @classmethod
     def tearDown(self):
         self.driver.quit()
