@@ -34,5 +34,7 @@ class EbaySearchResults:
 
     def list_of_elements(self):
        return self.driver.find_elements_by_xpath(self.resultTitle)
+    def get_itemsPerPage(self):
+       return self.driver.find_element_by_xpath(self.itemsPerPage)
 
 

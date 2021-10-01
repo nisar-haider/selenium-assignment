@@ -21,7 +21,7 @@ class Ebay(unittest.TestCase):
         self.driver.maximize_window()
         self.driver.get("https://www.ebay.com/")
 
-    @classmethod
+
     def test_EbayWebsitePrintAllResults(self):
         wait = WebDriverWait(self.driver, 10)
         ebayHome = EbayHome(self.driver)
@@ -66,11 +66,11 @@ class Ebay(unittest.TestCase):
                 print("Disabled button not found")
                 ebaySearchResults.clickbtn_NextPage()
 
-    @classmethod
     def test_PrintNthResult(self):
         wait = WebDriverWait(self.driver, 10)
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
+        value=5
 
         wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.searchField)))
         self.assertTrue(self, ebayHome.displaysearchField())
@@ -95,13 +95,49 @@ class Ebay(unittest.TestCase):
         if value<=length:
             print(elements[value-1].text)
 
+    def test_printItemsPerPage(self):
+        wait = WebDriverWait(self.driver, 10)
+        ebayHome = EbayHome(self.driver)
+        ebaySearchResults = EbaySearchResults(self.driver)
+
+        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.searchField)))
+        self.assertTrue(self, ebayHome.displaysearchField())
+        ebayHome.searchInput("Apple Watches")
+
+        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_AllCategories)))
+        self.assertTrue(self, ebayHome.displaybtn_AllCategories())
+        ebayHome.clickbtn_AllCategories()
+
+        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.category_ConsumerElectronics)))
+        self.assertTrue(self, ebayHome.displaycategory_ConsumerElectronics())
+        ebayHome.clickcategory_ConsumerElectronics()
+
+        wait.until(EC.presence_of_element_located((By.XPATH, ebayHome.btn_Search)))
+        self.assertTrue(self, ebayHome.displaybtn_Search())
+        ebayHome.clickbtn_Search()
+
+        html = self.driver.find_element_by_tag_name('html')
+        html.send_keys(Keys.END)
+
+        wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.itemsPerPage)))
+        self.assertTrue(self, ebaySearchResults.displayitemsPerPage())
+
+        resultCount = ebaySearchResults.list_of_elements()
+        items = ebaySearchResults.get_itemsPerPage().text
+        itemsint = int(items)
+        print(items)
+
+        for value in range(itemsint):
+            print((resultCount[value].text))
 
 
 
 
     time.sleep(5)
-
+    @classmethod
     def tearDown(self):
         self.driver.quit()
 
+if __name__=='__main__':
+    unittest.main()
 
