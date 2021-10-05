@@ -31,30 +31,34 @@ class Ebay(unittest.TestCase):
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
 
-        self.SearchResults("Apple Watches")
+        self.SearchResults("LED")
 
         wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.searchCount)))
         self.assertTrue(self, ebaySearchResults.displaysearchCount())
+        html = self.driver.find_element_by_tag_name('html')
+        html.send_keys(Keys.END)
+        try:
+            while (wait.until(EC.invisibility_of_element_located((By.XPATH, ebaySearchResults.btn_NextPage_disabled)))):
+                resultCount = ebaySearchResults.list_of_elements()
+                resultCount1 = len(resultCount)
+                print(resultCount1)
+                # time.sleep(2)
+                html = self.driver.find_element_by_tag_name('html')
+                html.send_keys(Keys.END)
+                for value in resultCount:
+                    print(value.text)
 
-        for i in range(200):
+                wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.btn_NextPage)))
+                ebaySearchResults.clickbtn_NextPage()
+                html = self.driver.find_element_by_tag_name('html')
+                html.send_keys(Keys.END)
+        except:
             resultCount = ebaySearchResults.list_of_elements()
             resultCount1 = len(resultCount)
             print(resultCount1)
-            time.sleep(2)
-            html = self.driver.find_element_by_tag_name('html')
-            html.send_keys(Keys.END)
             for value in resultCount:
                 print(value.text)
-            wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.btn_NextPage)))
-
-            #self.soft_assert(self.assertTrue(self, ebaySearchResults.displaybtn_NextPage()))
-            try:
-                wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.btn_NextPage_disabled)))
-                print("Disabled button found")
-                break
-            except TimeoutException:
-                print("Disabled button not found")
-                ebaySearchResults.clickbtn_NextPage()
+            print("End of the pages")
 
 ###########################End of the Test case##########################
 
