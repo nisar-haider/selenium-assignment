@@ -16,13 +16,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Pages.EbayHome import EbayHome
 from Pages.EbaySearchResults import EbaySearchResults
+from Configurations.config import config
 
-class Ebay(unittest.TestCase):
 
-    @classmethod
+class Ebay(config):
+
     def setUp(self):
-        self.driver = webdriver.Chrome("C:/Users/Duraze/PycharmProjects/pythonProject/chromedriver.exe")
-        self.driver.maximize_window()
+        super().setUp()
         self.driver.get("https://www.ebay.com/")
 
 
@@ -140,9 +140,9 @@ class Ebay(unittest.TestCase):
         self.assertTrue(self, ebayHome.displaybtn_Search())
         ebayHome.clickbtn_Search()
 ####################End of function######################
-    @classmethod
+
     def tearDown(self):
-        self.driver.quit()
+        super().tearDown()
 
 if __name__=='__main__':
     unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='C:\\Users\Duraze\\PycharmProjects\\pythonProject\\Reports'))

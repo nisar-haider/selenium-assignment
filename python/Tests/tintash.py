@@ -12,16 +12,23 @@ from selenium.webdriver.support import expected_conditions as EC
 from Pages.TTHomePage import TTHomePage
 from Pages.Google import GooglePage
 from Pages.Portfolio import Portfolio
+#from Configurations.config import config
+from Configurations.config import config
 
-class Tintash(unittest.TestCase):
+class Tintash(config):
 
-    @classmethod
     def setUp(self):
-        self.driver = webdriver.Chrome("C:/Users/Duraze/PycharmProjects/pythonProject/chromedriver.exe")
-        self.driver.maximize_window()
+        super().setUp()
         self.driver.get("https://www.google.com/")
-
-    @classmethod
+    #     cls.driver = webdriver.Chrome("C:/Users/Duraze/PycharmProjects/pythonProject/chromedriver.exe")
+    #     cls.driver.maximize_window()
+    #     cls.driver.get("https://www.google.com/")
+    #     outfile = open("Report.html", "w")
+    #     runner = HtmlTestRunner.HTMLTestRunner(
+    #         stream=outfile,
+    #
+    #     )
+    #     runner.run(Tintash)
     def test_TintashWebsite(self):
         wait = WebDriverWait(self.driver, 60)
         googlepage = GooglePage(self.driver)
@@ -78,9 +85,8 @@ class Tintash(unittest.TestCase):
         except NoSuchElementException:
             print ("Failed!")
 
-    time.sleep(5)
     def tearDown(self):
-        self.driver.quit()
+        super().tearDown()
 
-if __name__=='__main__':
-    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='C:\\Users\Duraze\\PycharmProjects\\pythonProject\\Reports'))
+if __name__ == '__main__':
+    super.main()
