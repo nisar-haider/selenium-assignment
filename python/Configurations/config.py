@@ -9,31 +9,32 @@ from unittest import TestLoader, TestSuite
 #import tintash
 #import webAutomation
 #import tintash
+#import Ebay
 
 
 class config1(unittest.TestCase):
+    testname = ""
+    test_runner = ""
+    test_suite = ""
+
+    # def setUpClass(cls):
+    #     cls.test_runner = HtmlTestRunner.HTMLTestRunner(output="Reports")
+    #     print(cls.test_runner)
 
 
     def setUp(self):
         self.driver = webdriver.Chrome("C:/Users/Duraze/PycharmProjects/pythonProject/chromedriver.exe")
         self.driver.maximize_window()
-        print(self.id())
-        smoke = self.id()
-        smoke1 = type(self).__name__
-        print(smoke)
-        smoke_test=unittest.TestSuite
-        smoke_test.addTests([unittest.defaultTestLoader.loadTestsFromTestCase(smoke1)])
-        #smoke_test.a
-        runner = HTMLTestRunner(output='C:\\Users\Duraze\\PycharmProjects\\pythonProject\\Reports',
-                                combine_reports=True, report_name="MyReport", report_title="Test Suites Report")
-        runner.run(smoke1)
-
-
-
 
 
     def tearDown(self):
+        for classmethod, error in self._outcome.errors:
+            if error:
+                self.driver.get_screenshot_as_file("screenshot" + self.id() + ".png")
+
         self.driver.close()
+
+
 
 
 
