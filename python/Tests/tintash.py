@@ -1,21 +1,21 @@
-from selenium import webdriver
 import time
 import unittest
 import HtmlTestRunner
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common import by
-from selenium.webdriver.common.action_chains import ActionChains
+import sys
+sys.path.append("C:/Users/Duraze/PycharmProjects/pythonProject")
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Pages.TTHomePage import TTHomePage
 from Pages.Google import GooglePage
 from Pages.Portfolio import Portfolio
-#from Configurations.config import config
-from Configurations.config import config
+from Configurations.config import config1
 
-class Tintash(config):
+
+
+class Tintash1(config1):
 
     def setUp(self):
         super().setUp()
@@ -23,12 +23,9 @@ class Tintash(config):
     #     cls.driver = webdriver.Chrome("C:/Users/Duraze/PycharmProjects/pythonProject/chromedriver.exe")
     #     cls.driver.maximize_window()
     #     cls.driver.get("https://www.google.com/")
-    #     outfile = open("Report.html", "w")
-    #     runner = HtmlTestRunner.HTMLTestRunner(
-    #         stream=outfile,
-    #
-    #     )
-    #     runner.run(Tintash)
+
+
+
     def test_TintashWebsite(self):
         wait = WebDriverWait(self.driver, 60)
         googlepage = GooglePage(self.driver)
@@ -85,8 +82,19 @@ class Tintash(config):
         except NoSuchElementException:
             print ("Failed!")
 
+
+    def runtests(self):
+        HtmlTestRunner.runner.HtmlTestResult.addSuccess = config1.addSuccess
+        unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='../Reports', report_title="Tintash Test Suite", add_timestamp=True, verbosity=2, template='../image.html'))
+
+
+
+
     def tearDown(self):
         super().tearDown()
 
 if __name__ == '__main__':
-    super.main()
+
+    Tintash1.runtests(self=Tintash1)
+
+

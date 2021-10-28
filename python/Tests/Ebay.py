@@ -1,25 +1,18 @@
-import pyunitreport
-from unittest import TestLoader, TestSuite
-from selenium import webdriver
-import time
+import sys
+sys.path.append("C:/Users/Duraze/PycharmProjects/pythonProject")
 import unittest
 import HtmlTestRunner
-from HtmlTestRunner import HTMLTestRunner
-import softest
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common import by
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Pages.EbayHome import EbayHome
 from Pages.EbaySearchResults import EbaySearchResults
-from Configurations.config import config
+from Configurations.config import config1
 
 
-class Ebay(config):
+
+class Ebay1(config1):
 
     def setUp(self):
         super().setUp()
@@ -31,7 +24,7 @@ class Ebay(config):
         ebayHome = EbayHome(self.driver)
         ebaySearchResults = EbaySearchResults(self.driver)
 
-        self.SearchResults("LED")
+        self.SearchResults("Apple Watches")
 
         wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.searchCount)))
         self.assertTrue(self, ebaySearchResults.displaysearchCount())
@@ -45,8 +38,8 @@ class Ebay(config):
                 # time.sleep(2)
                 html = self.driver.find_element_by_tag_name('html')
                 html.send_keys(Keys.END)
-                for value in resultCount:
-                    print(value.text)
+                # for value in resultCount:
+                #     print(value.text)
 
                 wait.until(EC.presence_of_element_located((By.XPATH, ebaySearchResults.btn_NextPage)))
                 ebaySearchResults.clickbtn_NextPage()
@@ -56,8 +49,8 @@ class Ebay(config):
             resultCount = ebaySearchResults.list_of_elements()
             resultCount1 = len(resultCount)
             print(resultCount1)
-            for value in resultCount:
-                print(value.text)
+            # for value in resultCount:
+            #     print(value.text)
             print("End of the pages")
 
 ###########################End of the Test case##########################
@@ -97,8 +90,8 @@ class Ebay(config):
         itemsint = int(items)
         print(items)
 
-        for value in range(itemsint):
-            print((result[value].text))
+        # for value in range(itemsint):
+        #     print((result[value].text))
 
 #######################End of testcase##################
 
@@ -111,11 +104,11 @@ class Ebay(config):
         result = ebaySearchResults.list_of_elements()
         length = len(result)
 
-        for value in range(length):
-            Element = result[value]
-            self.driver.execute_script("arguments[0].scrollIntoView();", Element)
-            print(value)
-            print(result[value].text)
+        # for value in range(length):
+        #     Element = result[value]
+        #     self.driver.execute_script("arguments[0].scrollIntoView();", Element)
+        #     print(value)
+        #     print(result[value].text)
 
 ###############################End of testcase######################
 
@@ -141,9 +134,13 @@ class Ebay(config):
         ebayHome.clickbtn_Search()
 ####################End of function######################
 
+    def runtests(self):
+        HtmlTestRunner.runner.HtmlTestResult.stopTest = config1.stopTest
+        HtmlTestRunner.runner.HtmlTestResult.addSuccess = config1.addSuccess
+        unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='../Reports', report_title="Ebay Test Suite", add_timestamp=True))
+
     def tearDown(self):
         super().tearDown()
 
 if __name__=='__main__':
-    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='C:\\Users\Duraze\\PycharmProjects\\pythonProject\\Reports'))
-
+    Ebay1.runtests(self=Ebay1)

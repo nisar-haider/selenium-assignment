@@ -2,6 +2,10 @@ import unittest
 from appium import webdriver
 from selenium.common.exceptions import TimeoutException
 import time
+import HtmlTestRunner
+import sys
+sys.path.append("C:/Users/Duraze/PycharmProjects/pythonProject")
+
 
 
 class Calculator(unittest.TestCase):
@@ -41,6 +45,8 @@ class Calculator(unittest.TestCase):
 
     def test_addition(self):
         #self.createWinAppSession()
+        num1=None
+        num2=None
         self.waitFortheElementToDisplayed(self.calcsession, "One")
         self.calcsession.find_element_by_name("One").click()
 
@@ -219,20 +225,8 @@ class Calculator(unittest.TestCase):
         self.waitFortheElementToDisplayed(self.calcsession, "Clear entry")
         self.calcsession.find_element_by_name("Clear entry").click()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def runtests(self):
+        unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='../Reports',report_name="Complete test suites", report_title="Calculator Test Suite", add_timestamp=True))
 
 
     def tearDown(self):
@@ -240,7 +234,7 @@ class Calculator(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    Calculator.runtests(self=Calculator)
 
 
 
